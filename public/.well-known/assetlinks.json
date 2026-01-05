@@ -1,0 +1,17 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.gofusionapp.gofusionapp",
+      "sha256_cert_fingerprints": [
+        "C5:AE:46:CE:7B:53:DB:34:86:B3:13:94:A5:8E:2A:BB:1D:1D:C3:1B:80:31:93:E3:DF:87:A8:2F:72:F7:CC:C1",
+        "15:20:90:BD:31:E5:39:0A:14:84:D7:4E:31:0F:20:4E:38:E4:5E:A8:55:EE:D6:85:D1:69:94:D1:55:A0:64:45",
+        "BD:6D:30:BF:16:C3:C8:C1:55:6E:D2:1B:BF:F2:EE:1D:B2:B3:30:CC:35:84:9F:55:72:C4:A3:98:DA:33:37:50"
+      ]
+    }
+  }
+]

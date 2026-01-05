@@ -1,0 +1,10 @@
+{
+  "name": "go-fusion-web",
+  "version": "1.0.0",
+  "description": "Go Fusion App Deep Linking",
+  "private": true,
+  "scripts": {
+    "start": "npx serve public",
+    "build": "echo 'Static site - no build required'"
+  }
+}
