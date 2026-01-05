@@ -2,21 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Go Fusion App</title>
     <meta name="description" content="Go Fusion - Connect, Share & Earn XP">
+    <meta name="theme-color" content="#E91E8C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Open Graph / Social Media Meta Tags -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/App_Icon.png">
+    <link rel="apple-touch-icon" href="/assets/App_Icon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://go-fusion-web.vercel.app/">
     <meta property="og:title" content="Go Fusion App">
     <meta property="og:description" content="Join Go Fusion and earn rewards!">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="/og-image.png">
+    <meta property="og:image" content="https://go-fusion-web.vercel.app/assets/App_Icon.png">
+    <meta property="og:site_name" content="Go Fusion">
 
-    <!-- App Links Meta Tags -->
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Go Fusion App">
+    <meta name="twitter:description" content="Join Go Fusion and earn rewards!">
+    <meta name="twitter:image" content="https://go-fusion-web.vercel.app/assets/App_Icon.png">
+
+    <!-- App Links Meta Tags (Facebook App Links) -->
+    <meta property="al:ios:url" content="gofusion://">
     <meta property="al:ios:app_store_id" content="6503088235">
     <meta property="al:ios:app_name" content="Go Fusion App">
+    <meta property="al:android:url" content="gofusion://">
     <meta property="al:android:package" content="com.gofusionapp.gofusionapp">
     <meta property="al:android:app_name" content="Go Fusion App">
+    <meta property="al:web:url" content="https://go-fusion-web.vercel.app/">
+
+    <!-- Smart App Banner for iOS Safari -->
+    <meta name="apple-itunes-app" content="app-id=6503088235">
 
     <style>
         * {
@@ -25,315 +46,516 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-            padding: 20px;
+            background: linear-gradient(180deg, #FAFBFC 0%, #F0F2F5 100%);
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Background Trees */
+        .bg-tree {
+            position: fixed;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .bg-tree-left {
+            left: 0;
+            width: 120px;
+            height: auto;
+        }
+
+        .bg-tree-right {
+            right: 0;
+            width: 280px;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .bg-tree-left {
+                width: 80px;
+            }
+            .bg-tree-right {
+                width: 180px;
+            }
+        }
+
+        /* Main Container */
         .container {
-            background: white;
-            border-radius: 24px;
-            padding: 40px 30px;
-            max-width: 400px;
-            width: 100%;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 32px 28px;
+            max-width: 380px;
+            width: calc(100% - 40px);
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+            position: relative;
+            z-index: 10;
         }
 
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #E91E8C 0%, #F06292 100%);
+        /* App Icon */
+        .app-icon {
+            width: 88px;
+            height: 88px;
             border-radius: 20px;
-            margin: 0 auto 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            color: white;
-            font-weight: bold;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 16px rgba(233, 30, 140, 0.2);
         }
 
         .app-name {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1C1C1E;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
         }
 
-        .tagline {
-            color: #666;
-            font-size: 16px;
-            margin-bottom: 30px;
+        .app-subtitle {
+            color: #8E8E93;
+            font-size: 15px;
+            margin-bottom: 24px;
+            font-weight: 400;
         }
 
-        .content-box {
-            background: #f8f9fa;
+        /* Content Card */
+        .content-card {
+            background: linear-gradient(135deg, #FFF5F9 0%, #FFF0F5 100%);
             border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(233, 30, 140, 0.1);
         }
 
         .content-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
+            font-size: 40px;
+            margin-bottom: 12px;
         }
 
         .content-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: #E91E8C;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .content-description {
-            color: #555;
+            color: #666;
             font-size: 14px;
             line-height: 1.5;
         }
 
-        .code-box {
-            background: #e8f5e9;
-            border: 2px dashed #4CAF50;
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-top: 16px;
-            font-family: monospace;
-            font-size: 14px;
-            color: #2e7d32;
-            word-break: break-all;
+        .referral-code {
+            background: #FFFFFF;
+            border: 1.5px dashed #E91E8C;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-top: 14px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: #E91E8C;
+            letter-spacing: 0.5px;
         }
 
-        .open-app-btn {
+        /* Open Button */
+        .open-btn {
             display: block;
             width: 100%;
-            padding: 16px 24px;
+            padding: 15px 24px;
             background: linear-gradient(135deg, #E91E8C 0%, #F06292 100%);
             color: white;
             text-decoration: none;
-            border-radius: 30px;
-            font-size: 18px;
+            border-radius: 14px;
+            font-size: 17px;
             font-weight: 600;
-            margin-bottom: 16px;
-            transition: transform 0.2s, box-shadow 0.2s;
             border: none;
             cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(233, 30, 140, 0.3);
         }
 
-        .open-app-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(233, 30, 140, 0.4);
+        .open-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(233, 30, 140, 0.3);
+        }
+
+        /* Loading State */
+        .loading-text {
+            color: #8E8E93;
+            font-size: 13px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .loading-text.show {
+            display: block;
+        }
+
+        /* Store Links */
+        .store-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E5EA;
+        }
+
+        .store-label {
+            color: #8E8E93;
+            font-size: 12px;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .store-buttons {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
-            margin-top: 20px;
         }
 
         .store-btn {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 20px;
-            background: #1a1a2e;
+            padding: 10px 16px;
+            background: #1C1C1E;
             color: white;
             text-decoration: none;
-            border-radius: 12px;
-            font-size: 12px;
-            transition: background 0.2s;
+            border-radius: 10px;
+            font-size: 11px;
+            transition: all 0.2s ease;
         }
 
-        .store-btn:hover {
-            background: #2d2d44;
+        .store-btn:active {
+            transform: scale(0.98);
+            background: #3A3A3C;
         }
 
         .store-btn svg {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
         }
 
-        .store-btn span {
+        .store-btn-text {
             text-align: left;
             line-height: 1.2;
         }
 
-        .store-btn .small {
-            font-size: 10px;
+        .store-btn-small {
+            font-size: 9px;
             opacity: 0.8;
+            font-weight: 400;
         }
 
-        .store-btn .big {
-            font-size: 14px;
+        .store-btn-big {
+            font-size: 13px;
             font-weight: 600;
         }
 
-        .divider {
+        /* Redirect Notice */
+        .redirect-notice {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            margin: 24px 0;
-            color: #999;
-            font-size: 12px;
+            justify-content: center;
+            z-index: 100;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #ddd;
+        .redirect-notice.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        .divider span {
-            padding: 0 12px;
+        .redirect-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #F0F2F5;
+            border-top-color: #E91E8C;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
         }
 
-        .footer {
-            margin-top: 30px;
-            color: #999;
-            font-size: 12px;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .redirect-text {
+            color: #1C1C1E;
+            font-size: 16px;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">GF</div>
-        <h1 class="app-name">Go Fusion</h1>
-        <p class="tagline" id="tagline">Connect, Share & Earn XP</p>
+    <!-- Background Trees -->
+    <img src="/assets/bottom_left_tree.svg" alt="" class="bg-tree bg-tree-left" aria-hidden="true">
+    <img src="/assets/bottom_right_tree.svg" alt="" class="bg-tree bg-tree-right" aria-hidden="true">
 
-        <div class="content-box" id="contentBox">
+    <!-- Redirect Notice (shown during auto-open attempt) -->
+    <div class="redirect-notice" id="redirectNotice">
+        <div class="redirect-spinner"></div>
+        <div class="redirect-text">Opening Go Fusion...</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <img src="/assets/App_Icon.png" alt="Go Fusion" class="app-icon">
+        <h1 class="app-name">Go Fusion</h1>
+        <p class="app-subtitle" id="appSubtitle">Connect, Share & Earn XP</p>
+
+        <div class="content-card" id="contentCard">
             <div class="content-icon" id="contentIcon">🎁</div>
             <h2 class="content-title" id="contentTitle">You've been invited!</h2>
             <p class="content-description" id="contentDescription">
                 Someone wants you to join Go Fusion. Download the app and start earning XP rewards!
             </p>
-            <div class="code-box" id="codeBox" style="display: none;"></div>
+            <div class="referral-code" id="referralCode" style="display: none;"></div>
         </div>
 
-        <button class="open-app-btn" id="openAppBtn" onclick="openApp()">
-            Open in Go Fusion
+        <button class="open-btn" id="openBtn" onclick="handleOpenApp()">
+            Open in App
         </button>
+        <p class="loading-text" id="loadingText">If the app doesn't open, tap the button above</p>
 
-        <div class="divider"><span>Don't have the app?</span></div>
-
-        <div class="store-buttons">
-            <a href="https://apps.apple.com/us/app/go-fusion-app/id6503088235" class="store-btn" target="_blank">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                </svg>
-                <span>
-                    <span class="small">Download on the</span><br>
-                    <span class="big">App Store</span>
-                </span>
-            </a>
-            <a href="https://play.google.com/store/apps/details?id=com.gofusionapp.gofusionapp&hl=en" class="store-btn" target="_blank">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
-                </svg>
-                <span>
-                    <span class="small">Get it on</span><br>
-                    <span class="big">Google Play</span>
-                </span>
-            </a>
+        <div class="store-section">
+            <p class="store-label">Don't have the app?</p>
+            <div class="store-buttons">
+                <a href="https://apps.apple.com/us/app/go-fusion-app/id6503088235" class="store-btn" id="appStoreBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    <span class="store-btn-text">
+                        <span class="store-btn-small">Download on the</span><br>
+                        <span class="store-btn-big">App Store</span>
+                    </span>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.gofusionapp.gofusionapp" class="store-btn" id="playStoreBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                    </svg>
+                    <span class="store-btn-text">
+                        <span class="store-btn-small">Get it on</span><br>
+                        <span class="store-btn-big">Google Play</span>
+                    </span>
+                </a>
+            </div>
         </div>
-
-        <p class="footer">Go Fusion App</p>
     </div>
 
     <script>
-        // Parse the current URL path
-        const path = window.location.pathname;
-        const pathParts = path.split('/').filter(Boolean);
+        (function() {
+            'use strict';
 
-        // Deep link configuration
-        let deepLinkType = 'home';
-        let deepLinkValue = '';
-        let appScheme = 'gofusion://';
+            // Configuration
+            const CONFIG = {
+                appScheme: 'gofusion://',
+                iosAppStoreUrl: 'https://apps.apple.com/us/app/go-fusion-app/id6503088235',
+                androidPlayStoreUrl: 'https://play.google.com/store/apps/details?id=com.gofusionapp.gofusionapp',
+                appStoreId: '6503088235',
+                androidPackage: 'com.gofusionapp.gofusionapp',
+                intentFallbackDelay: 2500,
+                redirectHideDelay: 1500
+            };
 
-        // Detect link type and customize content
-        if (pathParts[0] === 'invite' && pathParts[1]) {
-            deepLinkType = 'invite';
-            deepLinkValue = pathParts[1];
+            // Parse URL
+            const path = window.location.pathname;
+            const pathParts = path.split('/').filter(Boolean);
+            const searchParams = new URLSearchParams(window.location.search);
 
-            document.getElementById('contentIcon').textContent = '🎁';
-            document.getElementById('contentTitle').textContent = 'Get 150 XP!';
-            document.getElementById('contentDescription').textContent =
-                'You\'ve been invited to join Go Fusion! Use this referral code to earn bonus XP.';
-            document.getElementById('codeBox').style.display = 'block';
-            document.getElementById('codeBox').textContent = 'GOFUSION/' + deepLinkValue.toUpperCase();
+            // Deep link state
+            let linkType = 'home';
+            let linkValue = '';
+            let deepLinkUrl = CONFIG.appScheme;
 
-            // Update meta tags for social sharing
-            document.querySelector('meta[property="og:title"]').content = 'Join Go Fusion & Get 150 XP!';
-            document.querySelector('meta[property="og:description"]').content =
-                'Use referral code ' + deepLinkValue.toUpperCase() + ' to earn bonus XP rewards!';
+            // Device detection
+            const UA = navigator.userAgent || navigator.vendor || window.opera;
+            const isIOS = /iPad|iPhone|iPod/.test(UA) && !window.MSStream;
+            const isAndroid = /android/i.test(UA);
+            const isMobile = isIOS || isAndroid;
 
-        } else if (pathParts[0] === 'posts' && pathParts[1]) {
-            deepLinkType = 'post';
-            deepLinkValue = pathParts[1];
-
-            document.getElementById('contentIcon').textContent = '📱';
-            document.getElementById('contentTitle').textContent = 'View this post';
-            document.getElementById('contentDescription').textContent =
-                'Someone shared a post with you on Go Fusion. Open the app to view it!';
-            document.getElementById('codeBox').style.display = 'none';
-
-            // Update meta tags for social sharing
-            document.querySelector('meta[property="og:title"]').content = 'Check out this post on Go Fusion!';
-            document.querySelector('meta[property="og:description"]').content =
-                'Open Go Fusion to view this shared post.';
-        }
-
-        // Function to open the app
-        function openApp() {
-            let deepLink = appScheme;
-
-            if (deepLinkType === 'invite') {
-                deepLink = appScheme + 'invite/' + deepLinkValue;
-            } else if (deepLinkType === 'post') {
-                deepLink = appScheme + 'posts/' + deepLinkValue;
+            // Parse deep link type
+            if (pathParts[0] === 'invite' && pathParts[1]) {
+                linkType = 'invite';
+                linkValue = pathParts[1];
+                deepLinkUrl = CONFIG.appScheme + 'invite/' + linkValue;
+            } else if (pathParts[0] === 'posts' && pathParts[1]) {
+                linkType = 'post';
+                linkValue = pathParts[1];
+                deepLinkUrl = CONFIG.appScheme + 'posts/' + linkValue;
             }
 
-            // Try to open the app
-            const startTime = Date.now();
+            // Update page content based on link type
+            function updatePageContent() {
+                const contentIcon = document.getElementById('contentIcon');
+                const contentTitle = document.getElementById('contentTitle');
+                const contentDescription = document.getElementById('contentDescription');
+                const referralCode = document.getElementById('referralCode');
+                const appSubtitle = document.getElementById('appSubtitle');
 
-            // Create hidden iframe to try opening the app
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = deepLink;
-            document.body.appendChild(iframe);
+                if (linkType === 'invite') {
+                    contentIcon.textContent = '🎁';
+                    contentTitle.textContent = 'Get 150 XP!';
+                    contentDescription.textContent = 'You\'ve been invited to join Go Fusion! Use this referral code to earn bonus XP.';
+                    referralCode.style.display = 'block';
+                    referralCode.textContent = 'GOFUSION/' + linkValue.toUpperCase();
+                    appSubtitle.textContent = 'Referral Invitation';
 
-            // Also try direct location change as fallback
-            setTimeout(() => {
-                window.location.href = deepLink;
-            }, 100);
+                    // Update meta tags
+                    updateMetaTag('og:title', 'Join Go Fusion & Get 150 XP!');
+                    updateMetaTag('og:description', 'Use referral code ' + linkValue.toUpperCase() + ' to earn bonus XP rewards!');
+                    updateMetaTag('twitter:title', 'Join Go Fusion & Get 150 XP!');
+                    updateMetaTag('twitter:description', 'Use referral code ' + linkValue.toUpperCase() + ' to earn bonus XP rewards!');
+                    document.title = 'Join Go Fusion - Get 150 XP!';
 
-            // If still on page after delay, app probably isn't installed
-            setTimeout(() => {
-                document.body.removeChild(iframe);
-                if (Date.now() - startTime < 2000) {
-                    // User likely doesn't have the app, could show store buttons more prominently
+                } else if (linkType === 'post') {
+                    contentIcon.textContent = '📱';
+                    contentTitle.textContent = 'View this post';
+                    contentDescription.textContent = 'Someone shared a post with you on Go Fusion. Open the app to see it!';
+                    referralCode.style.display = 'none';
+                    appSubtitle.textContent = 'Shared Post';
+
+                    // Update meta tags
+                    updateMetaTag('og:title', 'Check out this post on Go Fusion!');
+                    updateMetaTag('og:description', 'Open Go Fusion to view this shared post.');
+                    updateMetaTag('twitter:title', 'Check out this post on Go Fusion!');
+                    updateMetaTag('twitter:description', 'Open Go Fusion to view this shared post.');
+                    document.title = 'View Post - Go Fusion';
                 }
-            }, 1500);
-        }
 
-        // Auto-attempt to open app on mobile devices
-        function isMobile() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
+                // Update App Links meta tags
+                updateMetaTag('al:ios:url', deepLinkUrl);
+                updateMetaTag('al:android:url', deepLinkUrl);
+                updateMetaTag('al:web:url', window.location.href);
+                updateMetaTag('og:url', window.location.href);
+            }
 
-        // On mobile, try to open app automatically after a short delay
-        if (isMobile() && (deepLinkType === 'invite' || deepLinkType === 'post')) {
-            setTimeout(() => {
-                openApp();
-            }, 500);
-        }
+            function updateMetaTag(property, content) {
+                let meta = document.querySelector('meta[property="' + property + '"]');
+                if (meta) {
+                    meta.setAttribute('content', content);
+                }
+            }
+
+            // Build Android Intent URL
+            function getAndroidIntentUrl() {
+                const intentPath = linkType === 'invite' ? 'invite/' + linkValue :
+                                   linkType === 'post' ? 'posts/' + linkValue : '';
+                return 'intent://' + intentPath +
+                       '#Intent;scheme=gofusion;package=' + CONFIG.androidPackage +
+                       ';S.browser_fallback_url=' + encodeURIComponent(CONFIG.androidPlayStoreUrl) + ';end';
+            }
+
+            // Open app with fallback
+            function openApp(showFallback = true) {
+                const redirectNotice = document.getElementById('redirectNotice');
+                const loadingText = document.getElementById('loadingText');
+
+                if (isMobile) {
+                    redirectNotice.classList.remove('hidden');
+                }
+
+                const startTime = Date.now();
+                let hasRedirected = false;
+
+                // Visibility change handler (app opened successfully)
+                function handleVisibilityChange() {
+                    if (document.hidden) {
+                        hasRedirected = true;
+                        cleanup();
+                    }
+                }
+
+                function cleanup() {
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    window.removeEventListener('pagehide', cleanup);
+                    window.removeEventListener('blur', handleBlur);
+                }
+
+                function handleBlur() {
+                    hasRedirected = true;
+                    cleanup();
+                }
+
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                window.addEventListener('pagehide', cleanup);
+                window.addEventListener('blur', handleBlur);
+
+                // Platform-specific opening
+                if (isAndroid) {
+                    // Android: Use Intent URL for better handling
+                    window.location.href = getAndroidIntentUrl();
+                } else if (isIOS) {
+                    // iOS: Universal Links should handle automatically
+                    // Fallback to custom scheme
+                    window.location.href = deepLinkUrl;
+                } else {
+                    // Desktop: Just show the page
+                    redirectNotice.classList.add('hidden');
+                    return;
+                }
+
+                // Fallback: If app didn't open
+                setTimeout(function() {
+                    if (!hasRedirected && document.visibilityState !== 'hidden') {
+                        redirectNotice.classList.add('hidden');
+                        if (showFallback) {
+                            loadingText.classList.add('show');
+                        }
+                    }
+                }, CONFIG.intentFallbackDelay);
+            }
+
+            // Manual open button handler
+            window.handleOpenApp = function() {
+                openApp(false);
+            };
+
+            // Initialize
+            updatePageContent();
+
+            // Auto-open on mobile for deep link paths
+            if (isMobile && (linkType === 'invite' || linkType === 'post')) {
+                // Small delay to ensure page is rendered
+                setTimeout(function() {
+                    openApp(true);
+                }, 100);
+            } else {
+                // Hide redirect notice on desktop
+                document.getElementById('redirectNotice').classList.add('hidden');
+            }
+
+            // Update Smart App Banner with deep link
+            if (isIOS && linkType !== 'home') {
+                const smartBanner = document.querySelector('meta[name="apple-itunes-app"]');
+                if (smartBanner) {
+                    smartBanner.setAttribute('content',
+                        'app-id=' + CONFIG.appStoreId + ', app-argument=' + deepLinkUrl);
+                }
+            }
+
+        })();
     </script>
 </body>
 </html>
