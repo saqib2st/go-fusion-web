@@ -86,10 +86,23 @@
 
         @media (max-width: 768px) {
             .bg-tree-left {
-                width: 80px;
+                width: 60px;
+                opacity: 0.5;
             }
             .bg-tree-right {
-                width: 180px;
+                width: 140px;
+                opacity: 0.5;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bg-tree-left {
+                width: 50px;
+                opacity: 0.4;
+            }
+            .bg-tree-right {
+                width: 100px;
+                opacity: 0.4;
             }
         }
 
@@ -400,7 +413,7 @@
                 linkType = 'invite';
                 linkValue = pathParts[1];
                 deepLinkUrl = CONFIG.appScheme + 'invite/' + linkValue;
-            } else if (pathParts[0] === 'posts' && pathParts[1]) {
+            } else if ((pathParts[0] === 'posts' || pathParts[0] === 'post') && pathParts[1]) {
                 linkType = 'post';
                 linkValue = pathParts[1];
                 deepLinkUrl = CONFIG.appScheme + 'posts/' + linkValue;
@@ -419,7 +432,7 @@
                     contentTitle.textContent = 'Get 150 XP!';
                     contentDescription.textContent = 'You\'ve been invited to join Go Fusion! Use this referral code to earn bonus XP.';
                     referralCode.style.display = 'block';
-                    referralCode.textContent = 'GOFUSION/' + linkValue.toUpperCase();
+                    referralCode.textContent = linkValue.toUpperCase();
                     appSubtitle.textContent = 'Referral Invitation';
 
                     // Update meta tags
