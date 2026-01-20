@@ -42,12 +42,5 @@
       "source": "/posts/:id",
       "destination": "/index.html"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "destination": "https://web-app.gofusion.fr",
-      "permanent": true
-    }
   ]
 }
