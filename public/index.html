@@ -420,10 +420,10 @@
             function redirectNonMobileIfNeeded() {
                 if (isMobile) return;
                 const inviteCode = getInviteCode();
-                if (!inviteCode) return;
-
-                const loginUrl = 'https://webapp.gofusion.6lgx.com/login?invite_code=' +
-                    encodeURIComponent(inviteCode);
+                const loginBaseUrl = 'https://webapp.gofusion.6lgx.com/login';
+                const loginUrl = inviteCode
+                    ? (loginBaseUrl + '?invite_code=' + encodeURIComponent(inviteCode))
+                    : loginBaseUrl;
 
                 // Avoid redirect loop if already at target
                 if (window.location.href === loginUrl) return;
@@ -564,12 +564,16 @@
 
             // Manual open button handler
             window.handleOpenApp = function() {
+                // Desktop: redirect only on button click (no popup; replace current tab)
+                if (!isMobile) {
+                    redirectNonMobileIfNeeded();
+                    return;
+                }
                 openApp(false);
             };
 
             // Initialize
             updatePageContent();
-            redirectNonMobileIfNeeded();
 
             // Auto-open on mobile for deep link paths
             if (isMobile && (linkType === 'invite' || linkType === 'post')) {
