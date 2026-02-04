@@ -408,6 +408,28 @@
             const isAndroid = /android/i.test(UA);
             const isMobile = isIOS || isAndroid;
 
+            // Derive invite code from path or query params
+            function getInviteCode() {
+                const paramCode = searchParams.get('invite_code');
+                if (paramCode) return paramCode.trim();
+                if (linkType === 'invite' && linkValue) return linkValue.trim();
+                return '';
+            }
+
+            // Desktop redirect to login with invite code
+            function redirectNonMobileIfNeeded() {
+                if (isMobile) return;
+                const inviteCode = getInviteCode();
+                if (!inviteCode) return;
+
+                const loginUrl = 'https://webapp.gofusion.6lgx.com/login?invite_code=' +
+                    encodeURIComponent(inviteCode);
+
+                // Avoid redirect loop if already at target
+                if (window.location.href === loginUrl) return;
+                window.location.replace(loginUrl);
+            }
+
             // Parse deep link type
             if (pathParts[0] === 'invite' && pathParts[1]) {
                 linkType = 'invite';
@@ -547,6 +569,7 @@
 
             // Initialize
             updatePageContent();
+            redirectNonMobileIfNeeded();
 
             // Auto-open on mobile for deep link paths
             if (isMobile && (linkType === 'invite' || linkType === 'post')) {
